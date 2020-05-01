@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EnhancedServiceLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnhancedServiceLoader.class);
     private static final String SERVICES_DIRECTORY = "META-INF/services/";
-    private static final String FESCAR_DIRECTORY = "META-INF/seata/";
+    private static final String SEATA_DIRECTORY = "META-INF/seata/";
     @SuppressWarnings("rawtypes")
     private static Map<Class, List<Class>> providers = new ConcurrentHashMap<Class, List<Class>>();
 
@@ -104,7 +104,7 @@ public class EnhancedServiceLoader {
 
             // 为避免被覆盖，每个activateName的查找，允许再加一层子目录
             if (StringUtils.isNotEmpty(activateName)) {
-                loadFile(service, FESCAR_DIRECTORY + activateName.toLowerCase() + "/", loader, extensions);
+                loadFile(service, SEATA_DIRECTORY + activateName.toLowerCase() + "/", loader, extensions);
 
                 List<Class> activateExtensions = new ArrayList<Class>();
                 for (int i = 0; i < extensions.size(); i++) {
@@ -144,7 +144,7 @@ public class EnhancedServiceLoader {
         List<Class> extensions = new ArrayList<Class>();
         try {
             loadFile(service, SERVICES_DIRECTORY, loader, extensions);
-            loadFile(service, FESCAR_DIRECTORY, loader, extensions);
+            loadFile(service, SEATA_DIRECTORY, loader, extensions);
         } catch (IOException e) {
             throw new EnhancedServiceNotFoundException(e);
         }
